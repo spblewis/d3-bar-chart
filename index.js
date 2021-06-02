@@ -11,5 +11,15 @@ const svg = select('svg')
 
 json(source)
   .then(data => {
-      document.getElementById('dummy').innerHTML = JSON.stringify(data)
-    });
+    document.getElementById('dummy').innerHTML = JSON.stringify(data)
+  });
+
+
+
+  console.log();
+
+
+
+
+
+  
