@@ -12,6 +12,15 @@ const svg = select('svg')
 
 json(source)
   .then((data) => {
+    // x axis
+    svg.append('g')
+      .attr('id', 'x-axis');
+
+    // y axis
+    svg.append('g')
+      .attr('id', 'y-axis');
+
+    // bars
     svg.selectAll('rect')
       .data(data.data)
       .enter()
@@ -19,5 +28,6 @@ json(source)
       .style('fill', 'blue')
       .attr('height', '200')
       .attr('width', '2')
-      .attr('x', (x, i) => i * 3);
+      .attr('x', (x, i) => i * 3)
+      .attr('class', 'bar');
   });
