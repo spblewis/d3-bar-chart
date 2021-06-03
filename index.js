@@ -13,8 +13,8 @@ const {
 const source = 'https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json';
 
 const height = 500;
-const width = 800;
-const padding = 30;
+const width = 1000;
+const padding = 50;
 
 const svg = select('svg')
   .attr('width', width)
@@ -23,7 +23,7 @@ const svg = select('svg')
 json(source)
   .then((data) => {
     const dataset = data.data;
-    console.log(dataset);
+
     // scale for x axis
     const xScale = scaleTime()
       .domain(
@@ -37,7 +37,7 @@ json(source)
 
     // scale for y axis
     const yScale = scaleLinear()
-      .domain([max(dataset, (d) => d[1], 0)])
+      .domain([0, max(dataset, (d) => d[1])])
       .range([height - padding, padding]);
     const yAxis = axisLeft(yScale);
 
@@ -61,8 +61,9 @@ json(source)
       .style('fill', 'blue')
       .attr('data-date', (d) => d[0])
       .attr('data-gdp', (d) => d[1])
-      .attr('height', '200')
-      .attr('width', '2')
-      .attr('x', (x, i) => i * 3)
+      .attr('height', (d) => (height - yScale(d[1]) - padding))
+      .attr('width', ((width - padding * 2) / dataset.length) * 0.9)
+      .attr('x', (d, i) => ((width - padding * 2) / dataset.length) * i + padding)
+      .attr('y', (d) => yScale(d[1]))
       .attr('class', 'bar');
   });
