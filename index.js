@@ -2,7 +2,9 @@ const {
   json,
   select,
   scaleLinear,
+  scaleTime,
   max,
+  min,
   axisBottom,
   axisLeft,
 // eslint-disable-next-line no-undef
@@ -23,8 +25,13 @@ json(source)
     const dataset = data.data;
     console.log(dataset);
     // scale for x axis
-    const xScale = scaleLinear()
-      .domain([0, max(dataset, (d) => d[0])])
+    const xScale = scaleTime()
+      .domain(
+        // todo: declare callback function elsewhere to make this more readable...
+        [min(dataset, (d) => new Date(d[0])),
+          max(dataset, (d) => new Date(d[0])),
+        ],
+      )
       .range([padding, width - padding]);
     const xAxis = axisBottom(xScale);
 
