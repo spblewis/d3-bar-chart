@@ -1,17 +1,23 @@
+// eslint-disable-next-line no-undef
 const { json, select } = d3;
 
-const source = 'https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json'
+const source = 'https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json';
 
 const height = 500;
 const width = 800;
 
 const svg = select('svg')
-    .attr('width', width)
-    .attr('height', height);
+  .attr('width', width)
+  .attr('height', height);
 
 json(source)
-  .then(data => {
-    document.getElementById('dummy').innerHTML = JSON.stringify(data)
+  .then((data) => {
+    svg.selectAll('rect')
+      .data(data.data)
+      .enter()
+      .append('rect')
+      .style('fill', 'blue')
+      .attr('height', '200')
+      .attr('width', '2')
+      .attr('x', (x, i) => i * 3);
   });
-
-console.log('there is no error line here');
