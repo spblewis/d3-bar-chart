@@ -4,6 +4,7 @@ const {
   scaleLinear,
   max,
   axisBottom,
+  axisLeft,
 // eslint-disable-next-line no-undef
 } = d3;
 
@@ -19,12 +20,19 @@ const svg = select('svg')
 
 json(source)
   .then((data) => {
+    const dataset = data.data;
+
     // scale for x axis
     const xScale = scaleLinear()
-      .domain([0, max(data.data, (d) => d[0])])
+      .domain([0, max(dataset, (d) => d[0])])
       .range([padding, width - padding]);
-
     const xAxis = axisBottom(xScale);
+
+    // scale for y axis
+    const yScale = scaleLinear()
+      .domain([max(dataset, (d) => d[1], 0)])
+      .range([height - padding, padding]);
+    const yAxis = axisLeft(yScale);
     // x axis
     svg.append('g')
       .attr('id', 'x-axis')
@@ -33,11 +41,13 @@ json(source)
 
     // y axis
     svg.append('g')
-      .attr('id', 'y-axis');
+      .attr('id', 'y-axis')
+      .attr('transform', `translate(${padding}, 0)`)
+      .call(yAxis);
 
     // bars
     svg.selectAll('rect')
-      .data(data.data)
+      .data(dataset)
       .enter()
       .append('rect')
       .style('fill', 'blue')
