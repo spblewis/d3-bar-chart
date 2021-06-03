@@ -14,12 +14,4 @@ json(source)
     document.getElementById('dummy').innerHTML = JSON.stringify(data)
   });
 
-
-
-  console.log();
-
-
-
-
-
-  
+console.log('there is no error line here');
