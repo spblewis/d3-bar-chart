@@ -21,7 +21,7 @@ const svg = select('svg')
 json(source)
   .then((data) => {
     const dataset = data.data;
-
+    console.log(dataset);
     // scale for x axis
     const xScale = scaleLinear()
       .domain([0, max(dataset, (d) => d[0])])
@@ -33,6 +33,7 @@ json(source)
       .domain([max(dataset, (d) => d[1], 0)])
       .range([height - padding, padding]);
     const yAxis = axisLeft(yScale);
+
     // x axis
     svg.append('g')
       .attr('id', 'x-axis')
@@ -51,6 +52,8 @@ json(source)
       .enter()
       .append('rect')
       .style('fill', 'blue')
+      .attr('data-date', (d) => d[0])
+      .attr('data-gdp', (d) => d[1])
       .attr('height', '200')
       .attr('width', '2')
       .attr('x', (x, i) => i * 3)
