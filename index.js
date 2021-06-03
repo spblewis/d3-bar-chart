@@ -65,5 +65,10 @@ json(source)
       .attr('width', ((width - padding * 2) / dataset.length) * 0.9)
       .attr('x', (d, i) => ((width - padding * 2) / dataset.length) * i + padding)
       .attr('y', (d) => yScale(d[1]))
-      .attr('class', 'bar');
+      .attr('class', 'bar')
+      // Tooltips... Not passing tests currently...
+      .append('title')
+      .attr('id', 'tooltip')
+      .attr('data-date', (d) => d[0])
+      .text((d) => d[0]);
   });
