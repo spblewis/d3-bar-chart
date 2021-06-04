@@ -7,7 +7,6 @@ const {
   min,
   axisBottom,
   axisLeft,
-  mouse,
 // eslint-disable-next-line no-undef
 } = d3;
 
@@ -20,11 +19,26 @@ const padding = 50;
 const formatDate = (date) => {
   const year = date.slice(0, 4);
   const month = date.slice(5, 7);
-  const quarter = (month === '01' ? 'Q1'
-    : month === '04' ? 'Q2'
-      : month === '07' ? 'Q3'
-        : 'Q4');
+  let quarter;
+
+  if (month === '01') {
+    quarter = 'Q1';
+  } else if (month === '04') {
+    quarter = 'Q2';
+  } else if (month === '07') {
+    quarter = 'Q3';
+  } else {
+    quarter = 'Q4';
+  }
+
   return `${year}, ${quarter}`;
+};
+
+const formatDollars = (dollars) => {
+  if (dollars > 1000) {
+    return `${(dollars / 1000).toPrecision(3)} Trillion`;
+  }
+  return `${dollars} Billion`;
 };
 
 const svg = select('svg')
@@ -91,9 +105,9 @@ json(source)
           .attr('data-date', () => `${d[0]}`)
           .style('background-color', 'pink')
           .style('left', () => `${(((width - padding * 2) / dataset.length) * i + padding) + 10}px`)
-          .text(formatDate(d[0]))
+          .html(`<p>${formatDate(d[0])}</p><p>${formatDollars(d[1])}</p>`)
           .style('height', '50px')
-          .style('width', '100px');
+          .style('width', '120px');
       })
       .on('mouseout', () => {
         tooltip.style('display', 'none');
