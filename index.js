@@ -72,7 +72,10 @@ json(source)
       .attr('id', 'tooltip')
       .style('position', 'absolute')
       .style('top', `${height * 0.7}px`)
-      .style('display', 'none');
+      .style('display', 'none')
+      .style('text-align', 'center')
+      .style('height', '50px')
+      .style('width', '120px');
 
     // x axis
     svg.append('g')
@@ -105,9 +108,7 @@ json(source)
           .attr('data-date', () => `${d[0]}`)
           .style('background-color', 'pink')
           .style('left', () => `${(((width - padding * 2) / dataset.length) * i + padding) + 10}px`)
-          .html(`<p>${formatDate(d[0])}</p><p>${formatDollars(d[1])}</p>`)
-          .style('height', '50px')
-          .style('width', '120px');
+          .html(`<p>${formatDate(d[0])}</p><p>${formatDollars(d[1])}</p>`);
       })
       .on('mouseout', () => {
         tooltip.style('display', 'none');
