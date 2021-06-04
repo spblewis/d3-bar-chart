@@ -17,6 +17,16 @@ const height = 500;
 const width = 1000;
 const padding = 50;
 
+const formatDate = (date) => {
+  const year = date.slice(0, 4);
+  const month = date.slice(5, 7);
+  const quarter = (month === '01' ? 'Q1'
+    : month === '04' ? 'Q2'
+      : month === '07' ? 'Q3'
+        : 'Q4');
+  return `${year}, ${quarter}`;
+};
+
 const svg = select('svg')
   .attr('width', width)
   .attr('height', height);
@@ -48,9 +58,7 @@ json(source)
       .attr('id', 'tooltip')
       .style('position', 'absolute')
       .style('top', `${height * 0.7}px`)
-      .style('display', 'none')
-      .attr('height', '100px')
-      .attr('width', '100px');
+      .style('display', 'none');
 
     // x axis
     svg.append('g')
@@ -83,7 +91,9 @@ json(source)
           .attr('data-date', () => `${d[0]}`)
           .style('background-color', 'pink')
           .style('left', () => `${(((width - padding * 2) / dataset.length) * i + padding) + 10}px`)
-          .text(() => `${d[0]}`);
+          .text(formatDate(d[0]))
+          .style('height', '50px')
+          .style('width', '100px');
       })
       .on('mouseout', () => {
         tooltip.style('display', 'none');
