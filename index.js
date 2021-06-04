@@ -41,6 +41,15 @@ json(source)
       .range([height - padding, padding]);
     const yAxis = axisLeft(yScale);
 
+    // define a target for tooltip
+    const tooltip = select('main')
+      .append('div')
+      .attr('height', '20px')
+      .attr('width', '20px')
+      .style('position', 'absolute')
+      .style('background-color', 'pink')
+      .text('tooltip');
+
     // x axis
     svg.append('g')
       .attr('id', 'x-axis')
@@ -58,7 +67,6 @@ json(source)
       .data(dataset)
       .enter()
       .append('rect')
-      .style('fill', 'blue')
       .attr('data-date', (d) => d[0])
       .attr('data-gdp', (d) => d[1])
       .attr('height', (d) => (height - yScale(d[1]) - padding))
@@ -67,8 +75,5 @@ json(source)
       .attr('y', (d) => yScale(d[1]))
       .attr('class', 'bar')
       // Tooltips... Not passing tests currently...
-      .append('title')
-      .attr('id', 'tooltip')
-      .attr('data-date', (d) => d[0])
-      .text((d) => d[0]);
+      .on('mouseover');
   });
