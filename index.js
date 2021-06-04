@@ -44,11 +44,11 @@ json(source)
     // define a target for tooltip
     const tooltip = select('main')
       .append('div')
+      .attr('id', 'tooltip')
       .attr('height', '20px')
       .attr('width', '20px')
       .style('position', 'absolute')
-      .style('background-color', 'pink')
-      .text('tooltip');
+      .style('display', 'none');
 
     // x axis
     svg.append('g')
@@ -67,7 +67,7 @@ json(source)
       .data(dataset)
       .enter()
       .append('rect')
-      .attr('data-date', (d) => d[0])
+      .attr('data-date', (d) => `${d[0]}`)
       .attr('data-gdp', (d) => d[1])
       .attr('height', (d) => (height - yScale(d[1]) - padding))
       .attr('width', ((width - padding * 2) / dataset.length) * 0.9)
@@ -75,5 +75,13 @@ json(source)
       .attr('y', (d) => yScale(d[1]))
       .attr('class', 'bar')
       // Tooltips... Not passing tests currently...
-      .on('mouseover');
+      .on('mouseover', (d) => {
+        tooltip.style('display', 'block')
+          .attr('data-date', () => `${d[0]}`)
+          .style('background-color', 'pink')
+          .text(() => `${d[0]}`);
+      })
+      .on('mouseout', () => {
+        tooltip.style('display', 'none');
+      });
   });
