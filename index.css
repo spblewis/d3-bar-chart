@@ -4,7 +4,6 @@
 }
 
 main {
-    position: relative;
     display: flex;
     flex-direction: column;
     width: 100vw;
@@ -12,6 +11,11 @@ main {
     justify-content: center;
     align-items: center;
 }
+
+#overlay {
+    position: relative;
+}
+
 
 .bar {
     fill: blue;
